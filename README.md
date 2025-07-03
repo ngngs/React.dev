@@ -49,6 +49,7 @@ function App() {
 ## 2단계: useState, useEffect
 
 ### useState
+- state(상태) : 컴포넌트 내부에서 값을 저장하고 변경하는 공간
 - 상태값을 만들고 변경하는 Hook
 
 ```jsx
@@ -68,6 +69,7 @@ function Counter() {
 
 ### useEffect
 - 컴포넌트 렌더링 이후 실행할 작업(부수 효과) 처리
+- API호출, 상태가 바뀔 때마다 어떤 작업을 하고 싶다면 사용하자
 
 ```jsx
 import React, { useState, useEffect } from 'react';
@@ -131,9 +133,14 @@ function App() {
 
 - Store: 상태 저장소
 - Action: 상태 변경 신호
-- Reducer: 상태 변경 함수
+- Reducer: 상태 변경 함수(실제로 바꾸는 역할)
 
 ### React에서 Redux 사용하기
+| Hook            | 역할                        |
+| --------------- | ------------------------- |
+| `useSelector()` | Redux store에서 **상태값 읽기**  |
+| `useDispatch()` | **Action 보내기 (dispatch)** |
+
 
 ```jsx
 import { useSelector, useDispatch } from 'react-redux';
@@ -152,25 +159,9 @@ function App() {
 }
 ```
 
-### 스토어 생성 예
 
-```js
-import { createStore } from 'redux';
 
-const initialState = { count: 0 };
 
-function counterReducer(state = initialState, action) {
-  switch(action.type) {
-    case 'INCREMENT':
-      return { count: state.count + 1 };
-    default:
-      return state;
-  }
-}
-
-const store = createStore(counterReducer);
-export default store;
-```
 
 ---
 
@@ -184,6 +175,18 @@ const actions = {
   getSome: payload => ({ type: 'GET_SOME', payload }),
 };
 ```
+
+---
+
+### React useState()만 사용할 때와 Redux를 사용할 때 차이
+| 항목               | useState (로컬 상태)   | Redux (전역 상태)                   |
+| ---------------- | ------------------ | ------------------------------- |
+| **상태 저장 위치**     | 특정 컴포넌트 내부         | 전역 스토어 (store)                  |
+| **다른 컴포넌트에서 접근** | ❌ 불가능 (props로만 전달) | ✅ useSelector로 접근 가능            |
+| **복잡한 상태 흐름 제어** | ❌ 어려움              | ✅ 미들웨어로 제어 용이 (saga, thunk)     |
+| **테스트 및 예측 가능성** | 🔸 컴포넌트마다 다름       | ✅ 순수 함수 기반으로 예측 가능              |
+| **적합한 용도**       | 소규모 상태, UI용 상태     | 앱 전체에 걸친 상태, 사용자 정보, 토큰, 장바구니 등 |
+
 
 ---
 
@@ -219,7 +222,7 @@ export default watchFetchUser;
 ### 핵심 문법
 
 - `function*` : Generator 함수 선언 (yield 사용 가능)
-- `yield` : 함수 실행 일시 중지 및 제어 위임
+- `yield` : 함수 실행을 중간에 멈췄다가 다시 시작할 수 있게 하는 Generator 함수 전용 키워드
 - `put` : Redux 액션 dispatch 역할
 - `call` : 비동기 함수 호출
 
@@ -241,6 +244,3 @@ function normal() {
 ```
 
 ---
-
-필요하면 추가 자료나 예제 더 만들어 드릴 수 있습니다.  
-Git에 올려서 언제든 편하게 보세요! 😊
