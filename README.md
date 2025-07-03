@@ -12,15 +12,20 @@
 const element = <h1>Hello, world!</h1>;
 ```
 
+```js
+// 실제로는 다음과 같이 해석됨
+React.createElement('h1', null, 'Hello, world!");
+```
+
 ### 컴포넌트란?
-- UI를 나누는 독립적인 작은 단위
+- UI를 나누는 독립적인 작은 단위(HTML + 로직을 포함)
 - 함수형 컴포넌트 예시
 
 ```jsx
 function Hello(props) {
   return <h1>Hello, {props.name}!</h1>;
 }
-
+// props는 부모에 접근할 때 씀
 function App() {
   return (
     <div>
@@ -30,6 +35,14 @@ function App() {
   );
 }
 ```
+
+### JSX 문법 규칙
+| 항목                | 설명                          | 예시                                                             |
+| ----------------- | --------------------------- | -------------------------------------------------------------- |
+| 하나의 부모 태그         | JSX는 반드시 하나의 루트 엘리먼트로 감싸야 함 | ✅ `<div><h1>Title</h1></div>`<br>❌ `<h1>Title</h1><p>Text</p>` |
+| JavaScript 표현식 사용 | `{}` 안에 변수나 연산식 사용 가능       | `<p>{name}</p>`                                                |
+| 속성 이름은 camelCase  | HTML 속성은 자바스크립트 스타일         | `class` → `className`, `for` → `htmlFor`                       |
+
 
 ---
 
